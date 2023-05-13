@@ -10,11 +10,20 @@ module.exports = {
 	async execute(interaction) {
         const movies = await list_all();
         let movieList = '';
-        movies.items.forEach(movie => {
-            if (!movie.watched){
-                movieList += `🎥 ${movie.title}\n`;
+        // filter out watched movies
+        if (movies.items.length != 0){
+            movies.items.forEach(movie => {
+                if (!movie.watched){
+                    movieList += `🎥 ${movie.title}\n`;
+                }
+            });
+            if (movieList.length == 0) {
+                movieList = '🦗 No movies to watch!';
             }
-        });
+        }
+        else {
+            movieList = '🦗 No movies to watch!';
+        }
         await interaction.reply(movieList);
 	},
 };
